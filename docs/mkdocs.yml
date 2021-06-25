@@ -1,0 +1,10 @@
+site_name: My-Site
+site_favicon: images/favicon.ico
+docs_dir: src
+site_dir: site
+theme: 
+    name: readthedocs
+    highlightjs: true
+nav:
+    - Introduction: index.md
+

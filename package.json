@@ -1,0 +1,64 @@
+{
+  "name": "mysyte",
+  "version": "0.0.1",
+  "description": "My Site",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "css:scss": "sass --style compressed src/scss/style.scss dist/css/style.css",
+    "css:autoprefixer": "postcss -u autoprefixer -r dist/css/*.css",
+    "build:css": "npm run css:scss && npm run css:autoprefixer",
+    "watch:css": "onchange \"src/scss\" -- npm run build:css",
+    "build:fonts": "#cp -R node_modules/@mdi/font/fonts/ dist/",
+    "watch:fonts": "#cp -R node_modules/@mdi/font/fonts/ dist/",
+    "export:images": "cp -R src/images_minimized/* dist/images",
+    "copy2min:images": "cp -R src/images/* src/images_minimized/",
+    "bypass:images": "npm run copy2min:images && npm run export:images",
+    "minimize:images": "find 'src/images_minimized/' -name '*.jpg' -print0  | xargs -0 -n 10 -P 4 jpegoptim {} --strip-exif && find 'src/images_minimized/' -name '*.png' -print0 | xargs -0 optipng -nc -nb -o7",
+    "build:images": "npm run copy2min:images && npm run minimize:images && npm run export:images",
+    "watch:images": "onchange \"src/images\" -- npm run bypass:images",
+    "build:js": "webpack --mode=production",
+    "watch:js": "onchange \"src/js\" -- webpack --mode=development",
+    "build:html": "posthtml -c posthtml.json",
+    "watch:html": "onchange \"src/views\" -- npm run build:html",
+    "serve": "browser-sync start --server \"dist\" --files \"dist\"",
+    "prepare": "mkdir -p src/images_minimized && mkdir -p dist/images && mkdir -p dist/css && mkdir -p dist/js && mkdir -p dist/fonts",
+    "watch": "run-p serve watch:*",
+    "build": "run-p prepare && run-p build:*",
+    "clean": "rm -rf dist && rm -rf .sass-cache && rm -rf node_modules && rm -rf src/images_minimized"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://xxxxxx/XXXXX/mysite.git"
+  },
+  "keywords": [
+    "MySite",
+    "Template"
+  ],
+  "author": "pronetsoluciones.com.ar",
+  "license": "SEE LICENSE IN LICENSE",
+  "devDependencies": {
+    "@babel/preset-env": "^7.14.4",
+    "@squoosh/lib": "^0.2.3",
+    "autoprefixer": "^10.2.6",
+    "babel-loader": "^8.2.2",
+    "browser-sync": "^2.26.14",
+    "copy-webpack-plugin": "^9.0.0",
+    "eslint": "^7.28.0",
+    "eslint-webpack-plugin": "^2.5.4",
+    "html-minifier-terser": "^5.1.1",
+    "html-minimizer-webpack-plugin": "^3.1.0",
+    "npm-run-all": "^4.1.5",
+    "onchange": "^7.1.0",
+    "postcss-cli": "^8.3.1",
+    "posthtml": "^0.16.2",
+    "posthtml-cli": "^0.9.2",
+    "posthtml-modules": "^0.7.4",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+
+  }
+}
